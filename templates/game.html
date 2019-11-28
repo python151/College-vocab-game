@@ -1,0 +1,303 @@
+{% extends 'headers/main.html' %}
+
+{% block body %}
+<style>
+    html,
+body {
+  height: 100%;
+}
+body {
+  font-family: Avenir;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+* {
+  box-sizing: border-box;
+}
+.inp {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  max-width: 280px;
+}
+.inp .label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 16px;
+  color: #9098a9;
+  font-weight: 500;
+  transform-origin: 0 0;
+  transition: all 0.2s ease;
+}
+.inp .border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: #07f;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  transition: all 0.15s ease;
+}
+.inp input {
+  -webkit-appearance: none;
+  width: 100%;
+  border: 0;
+  font-family: inherit;
+  padding: 12px 0;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 2px solid #c8ccd4;
+  background: none;
+  border-radius: 0;
+  color: #223254;
+  transition: all 0.15s ease;
+}
+.inp input:hover {
+  background: rgba(34,50,84,0.03);
+}
+.inp input:not(:placeholder-shown) + span {
+  color: #5a667f;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp input:focus {
+  background: none;
+  outline: none;
+}
+.inp input:focus + span {
+  color: #003E6D;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp input:focus + span + .border {
+  transform: scaleX(1);
+}
+
+.inp1 {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  max-width: 280px;
+}
+.inp1 .label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 16px;
+  color: #9098a9;
+  font-weight: 500;
+  transform-origin: 0 0;
+  transition: all 0.2s ease;
+}
+.inp1 .border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: #07f;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  transition: all 0.15s ease;
+}
+.inp1 input {
+  -webkit-appearance: none;
+  width: 100%;
+  border: 0;
+  font-family: inherit;
+  padding: 12px 0;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 2px solid #c8ccd4;
+  background: none;
+  border-radius: 0;
+  color: #223254;
+  transition: all 0.15s ease;
+}
+.inp1 input:hover {
+  background: rgba(34,50,84,0.03);
+}
+.inp1 input:not(:placeholder-shown) + span {
+  color: #5a667f;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp1 input:focus {
+  background: none;
+  outline: none;
+}
+.inp1 input:focus + span {
+  color: #003E6D;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp1 input:focus + span + .border {
+  transform: scaleX(1);
+}
+
+.inp2 {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  max-width: 280px;
+}
+.inp2 .label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 16px;
+  color: #9098a9;
+  font-weight: 500;
+  transform-origin: 0 0;
+  transition: all 0.2s ease;
+}
+.inp2 .border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: #07f;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  transition: all 0.15s ease;
+}
+.inp2 input {
+  -webkit-appearance: none;
+  width: 100%;
+  border: 0;
+  font-family: inherit;
+  padding: 12px 0;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 2px solid #c8ccd4;
+  background: none;
+  border-radius: 0;
+  color: #223254;
+  transition: all 0.15s ease;
+}
+.inp2 input:hover {
+  background: rgba(34,50,84,0.03);
+}
+.inp2 input:not(:placeholder-shown) + span {
+  color: #5a667f;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp2 input:focus {
+  background: none;
+  outline: none;
+}
+.inp2 input:focus + span {
+  color: #003E6D;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp2 input:focus + span + .border {
+  transform: scaleX(1);
+}
+
+
+
+</style>
+
+<div class="row" style="margin: 0 10px 0 10px;">
+<div class="col card" style="width: 100%; height: 300px;
+     margin: 10px; text-align: center;"><div id="p0">
+    {% if not session['player1'] %}
+    <label for="inp" class="inp" style="margin-top: 30px">
+        <input class="input" id="inp0" placeholder="&nbsp;">
+        <span class="label">Player 1:</span>
+        <span class="border"></span>
+    </label>
+    <button class="btn btn-primary" style="height: 48px; background-color: #003E6D;" onclick="readyup(1)">Ready Up</button>
+    <p id="player0"></p>
+    {% endif %}</div>
+{% if session['player1'] %}
+{{session['player1']}}
+{% endif %}
+
+</div>
+
+<div class="col card" style="width: 100%; height: 300px;
+     margin: 10px; text-align: center;">
+     <div id="p1">
+    {% if not session['player2'] %}
+    <label for="inp1" class="inp1" style="margin-top: 30px">
+        <input class="input" id="inp1" placeholder="&nbsp;">
+        <span class="label">Player 2:</span>
+        <span class="border"></span>
+    </label>
+    <button class="btn btn-primary" style="height: 48px; background-color: #003E6D;" onclick="readyup(2)">Ready Up</button>
+    <p id="player1"></p>
+    {% endif %}</div>
+{% if session['player2'] %}
+{{session['player2']}}
+{% endif %}
+
+</div>
+
+
+
+<div class="col card" style="width: 100%; height: 300px;
+     margin: 10px; text-align: center;"><div id="p2">
+    {% if not session['player3'] %}
+    <label for="inp2" class="inp2" style="margin-top: 30px">
+        <input class="input" id="inp2" placeholder="&nbsp;">
+        <span class="label">Player 3: Optional</span>
+        <span class="border"></span>
+    </label>
+    <button class="btn btn-primary" style="height: 48px; background-color: #003E6D;" onclick="readyup(3)">Ready Up</button>
+    <p id="player2"></p>
+    {% endif %}</div>
+{% if session['player3'] %}
+{{session['player3']}}
+{% endif %}
+</div>
+</div>
+<script>
+var ajax = function(url, params, dump) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(params);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            var response = xhr.responseText;
+            dump(response);
+        }
+    }
+    //window.location.href = window.location.pathname + window.location.search + window.location.hash;
+}
+    var number;
+    var currpointer = 1;
+    function readyup(number) {
+        var number1 = String(number-1)
+        var url = '/readyupplayer/';
+        currpointer = number1;
+        var params = "playerNumber="+number+"&playerName="+document.getElementById("inp"+number1).value;
+        ajax(url, params, next);
+    }
+
+    function family(response) {
+        var temp111 = response;
+    }
+
+    function next(response) {
+        var p = document.getElementById("player"+currpointer);
+        if (response == "success") {
+            p.style = "color: green;";
+            p.innerHTML = response;
+            var rel = document.getElementById("p"+currpointer);
+            ajax('/getQs/', params, family);
+            rel.innerHTML = temp111;
+        }
+        else if (response == "invalid"){
+            p.style = "color: red";
+            p.innerHTML = response;
+        }
+    }
+
+</script>
+
+{% endblock %}

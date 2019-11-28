@@ -1,13 +1,39 @@
 {% extends 'headers/main.html' %}
 
 {% block body %}
+<style>
+    .play-button {
+        font-size: 40px;
+        vertical-align: middle;
+        line-height: 200px;
+        transition: .25s;
+        color: white;
+        background-color: #003E6D;
+        border-radius: 5px;
+        width: 350px;
+        height: 200px;
+        border: none;
+        margin: 5px;
+    }
+    .play-button:hover {
+        transition: .5s;
+        border-left: 10px solid #003E6D;
+        delay: .05s;
+        background: black;
+        margin-left: 20px;
+        width: 330px;
+        height: 200px;
+        
+        /*border: 100px solid black;*/
+    }
+</style>
+
 <div class="container" style="margin-top:15px">
-    <h3>Example Home</h3>
-    <div class="lorem">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt ipsam assumenda autem explicabo repellat eos fugit nobis mollitia dolorum. Obcaecati tenetur soluta maxime aperiam hic rerum perferendis dolorem doloribus. Veritatis.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, non alias quod rerum sint ad atque corporis odio eligendi nisi vero dolorum molestias tempore ex veniam sequi enim corrupti numquam?
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti dolorem assumenda magni nihil repellendus repudiandae alias in, possimus facere odit nesciunt, pariatur ullam dolorum. Sequi, modi id. Accusantium, officia veniam.
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus, mollitia eligendi unde nam ea suscipit vero repudiandae, ducimus reiciendis rerum veniam excepturi autem sunt recusandae id adipisci debitis? Delectus, explicabo!
+    <div class="container">
+        <div style="text-align: center; vertical-align: center;">
+            <a href="/game"><button class="play-button">Play!</button></a><br>
+            <a href="/howtoplay"><button class="play-button">Tutorial</button></a>
+        </div>
     </div>
 </div>
 {% endblock %}
