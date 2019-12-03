@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, jsonify
 
 import database
 import security
@@ -9,30 +9,6 @@ from sqlalchemy import create_engine, and_, or_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.pool import SingletonThreadPool
-
-class Player:
-    def __init__(self, name, number):
-        self.name = name
-        self.number = number
-        self.questionNumber = 1
-        self.points = 100
-
-class questions:
-    def get(qnumber):
-        allQuestions = open('questions.txt', 'r')
-        questionsInFormat = allQuestions.read().split("\n")
-        for q in questionsInFormat:
-            if qnumber == q.split("|")[1]:
-                return q
-    def awnser(number, awnser):
-        allQuestions = open('questionAwnsers.txt', 'r')
-        questionsInFormat = allQuestions.read().split("\n")
-        for q in questionsInFormat:
-            if number == q.split("|")[1]:
-                if awnser == q.split("|")[0]:
-                    return True
-                else:
-                    return False
 
 app = Flask(__name__)
 
@@ -87,26 +63,43 @@ def readyup():
     session['player'+str(number)] = [name, number, 1, 100]
     return 'success'
 
-@app.route('/awnser/', methods=['POST'])
+@app.route('/answer/', methods=['POST'])
 def awnser():
     if request.method == 'POST':
-        awnserSubmited = request.form.get("awnser")
-        player = request.form.get("player")
-        qNumber = session.get("player"+player)[2]
-        playerObj = session.get("player"+str(player))
-        if questions.awnser(qNumber, awnserSubmited):
-            playerObj.points[3] += 10
-            playerObj[2] += 1
-            return questions.get(playerObj.questionNumber)
-        else:
-            playerObj[3] -= 10
-        return 'incorrect'
+        awnserSubmited = request.form.get("ans")
+        qn = request.form.get("q")
+        if qn == 23:
+            return 's'
+        for n, i in enumerate(range(21)):
+            if open("questions.txt", 'r').read().split('\n')[i].split("||")[1] == str(awnserSubmited) and str(n) == str(qn):
+                return 'true'
+            elif str(n) == str(qn):
+                break
+        return False
 
 @app.route('/points/', methods=['POST'])
 def checkPoints():
     if request.method == 'POST':
         return str(session.get("player"+str(request.form.get("player")))[3])
 
+@app.route("/getQs/", methods=['POST'])
+def nnnQuest():
+    q = request.form.get("q")
+    for n, i in enumerate(open("questions.txt", "r").read().split('\n')):
+        print(n, q)
+        if str(n) == str(q):
+            temp = open("questions.txt", "r").read().split('\n')[random.randint(0, 21)].split('||')[1]
+            temp1 = open("questions.txt", "r").read().split('\n')[random.randint(0, 21)].split('||')[1]
+            while temp == temp1 or temp == i.split('||')[0] or temp1 == i.split('||')[0]:
+                temp = open("questions.txt", "r").read().split('\n')[random.randint(0, 21)].split('||')[1]
+                temp1 = open("questions.txt", "r").read().split('\n')[random.randint(0, 21)].split('||')[1]
+            try: temp = str(i.split('||')[1]+'||'+temp+'||'+temp1).split('||')
+            except: return 'done'
+            random.shuffle(temp, random.random)
+            if i.split('||')[0] == 'done':
+                return i
+            return i.split('||')[0]+'||'+'||'.join(temp)
+    return 'done'
 
 
 

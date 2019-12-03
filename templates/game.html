@@ -197,64 +197,92 @@ body {
   transform: scaleX(1);
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: 150px 150px 150px 150px 150px;
+  background-color: #000;
+}
 
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  text-align: center;
+  width: 150px;
+  height: 150px;
+}
+
+.grid-out {
+  width: 0;
+  height: 0;
+}
+
+#btn2 {
+  width: 300px;
+  height: 150px;
+  color: white;
+  display: block;
+  position: relative;
+  left: -140px;
+  bottom: 140px;
+}
+
+.grid-out>button{
+  width: 430px;
+  height: 130px;
+  margin: 5px 0 0 0;
+  clear: both;
+  border-radius: 10px;
+  background-color: white;
+  border: none;
+}
 
 </style>
+<div class="grid-container">
+  <div class="grid-item" id="1"></div>
+  <div class="grid-item" id="2"></div>
+  <div class="grid-item" id="3"></div>  
+  <div class="grid-item" id="4"></div>
+  <div class="grid-item" id="5"></div>
+  <div class="grid-item" id="16"></div>
+  
+  <div class="grid-out"></div>
+  <div class="grid-out"></div>
+  <div class="grid-out"></div> 
+  
+  <div class="grid-item" id="6"></div> 
+  <div class="grid-item" id="15"></div> 
+  
+  <div class="grid-out" id="btn1"></div> 
+  <div class="grid-out" id="btn2">
+    <div id="aq" style="margin: 0; height: 0;">word</div> <br>
 
-<div class="row" style="margin: 0 10px 0 10px;">
-<div class="col card" style="width: 100%; height: 300px;
-     margin: 10px; text-align: center;"><div id="p0">
-    {% if not session['player1'] %}
-    <label for="inp" class="inp" style="margin-top: 30px">
-        <input class="input" id="inp0" placeholder="&nbsp;">
-        <span class="label">Player 1:</span>
-        <span class="border"></span>
-    </label>
-    <button class="btn btn-primary" style="height: 48px; background-color: #003E6D;" onclick="readyup(1)">Ready Up</button>
-    <p id="player0"></p>
-    {% endif %}</div>
-{% if session['player1'] %}
-{{session['player1']}}
-{% endif %}
+    <button id="abtn1" onclick="awnser(1)">definition 1</button><br>
+    <button id="abtn2" onclick="awnser(2)">definition 2</button><br>
+    <button id="abtn3" onclick="awnser(3)">definition 3</button><br>
+  </div> 
+  <div class="grid-out" id="btn3"></div> 
+  
+  <div class="grid-item" id="7"></div> 
+  <div class="grid-item" id="14"></div>
+  
+  <div class="grid-out"></div> 
+  <div class="grid-out"></div> 
+  <div class="grid-out"></div> 
+  
+  <div class="grid-item" id="8"></div> 
+  <div class="grid-item" id="13"></div> 
+  <div class="grid-item" id="12"></div> 
+  <div class="grid-item" id="11"></div> 
+  <div class="grid-item" id="10"></div> 
+  <div class="grid-item" id="9"></div> 
+</div>
 
 </div>
 
-<div class="col card" style="width: 100%; height: 300px;
-     margin: 10px; text-align: center;">
-     <div id="p1">
-    {% if not session['player2'] %}
-    <label for="inp1" class="inp1" style="margin-top: 30px">
-        <input class="input" id="inp1" placeholder="&nbsp;">
-        <span class="label">Player 2:</span>
-        <span class="border"></span>
-    </label>
-    <button class="btn btn-primary" style="height: 48px; background-color: #003E6D;" onclick="readyup(2)">Ready Up</button>
-    <p id="player1"></p>
-    {% endif %}</div>
-{% if session['player2'] %}
-{{session['player2']}}
-{% endif %}
-
-</div>
-
-
-
-<div class="col card" style="width: 100%; height: 300px;
-     margin: 10px; text-align: center;"><div id="p2">
-    {% if not session['player3'] %}
-    <label for="inp2" class="inp2" style="margin-top: 30px">
-        <input class="input" id="inp2" placeholder="&nbsp;">
-        <span class="label">Player 3: Optional</span>
-        <span class="border"></span>
-    </label>
-    <button class="btn btn-primary" style="height: 48px; background-color: #003E6D;" onclick="readyup(3)">Ready Up</button>
-    <p id="player2"></p>
-    {% endif %}</div>
-{% if session['player3'] %}
-{{session['player3']}}
-{% endif %}
-</div>
-</div>
+Player :<p id="dispturn"></p>
+Player 1:<p id="p1"></p>
+Player 2:<p id="p2"></p>
+Player 3:<p id="p3"></p>
 <script>
 var ajax = function(url, params, dump) {
     var xhr = new XMLHttpRequest();
@@ -264,7 +292,7 @@ var ajax = function(url, params, dump) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
             var response = xhr.responseText;
-            dump(response);
+            return dump(response);
         }
     }
     //window.location.href = window.location.pathname + window.location.search + window.location.hash;
@@ -280,23 +308,133 @@ var ajax = function(url, params, dump) {
     }
 
     function family(response) {
-        var temp111 = response;
+        return temp111 = response;
     }
 
     function next(response) {
         var p = document.getElementById("player"+currpointer);
+        var yy = document.getElementById("inp"+currpointer-1);
         if (response == "success") {
             p.style = "color: green;";
             p.innerHTML = response;
             var rel = document.getElementById("p"+currpointer);
-            ajax('/getQs/', params, family);
-            rel.innerHTML = temp111;
+            params = 'q='+currpointer;
+            rel.innerHTML = ajax('/getQs/', params, family);
+            rel.style.display = "none";
         }
         else if (response == "invalid"){
             p.style = "color: red";
             p.innerHTML = response;
         }
     }
+
+
+
+
+var positions = [0, 0, 0]
+window.points = [0, 0, 0]
+var question = 0
+var turn = 1
+
+function move(player, roll) {
+    var currentPosition = positions[player-1]
+    if(currentPosition == 16 || (currentPosition == 15 && roll >= 2) || (currentPosition == 14 && roll >= 3)) {
+      num = 16;
+    }
+    else{
+      num = 17;
+    };
+    newPosition = (currentPosition + roll)%num;
+    positions[player-1] = newPosition;
+    document.getElementById(newPosition).innerHTML += "player"+String(player);
+    console.log(currentPosition)
+    document.getElementById(currentPosition).innerHTML = document.getElementById(currentPosition).innerHTML.replace("player"+String(player), '');
+}
+
+function rollAnimate(roll) {
+  //alert(roll);
+  //console.log(roll);
+}
+
+function stealAnimation() {
+  alert("stolen");
+}
+
+function correctAnimation() {
+  alert("good job")
+}
+
+function correct(player) {
+  let roll = Math.floor((Math.random() * 3) + 1);
+  rollAnimate(roll);
+  move(player, roll);
+  let playerPos = positions[player-1];
+  switch (playerPos%3) {
+    case 0:
+      window.points[player-1] += 10;
+    case 1:
+      window.points[player-1] += 5;
+    case 2:
+      window.points[player-1] += 2.5;
+  }
+}
+
+function incorrect(player) {
+  stealAnimation();
+  correct(player+1);
+}
+var q
+function up(response) {
+  if (response == 'done') {
+      var top = 0;
+      for (i; i<window.points.length; i++) {
+        if (window.points[i] > top) {
+          top = window.points[i]
+        }
+      }
+      alert("player "+window.points.indexOf(String(top))+" wins!")
+      window.location = '/Home'
+    }
+  else {
+  var q = response;
+  document.getElementById('aq').innerHTML = q.split("||")[0];
+  document.getElementById('abtn1').innerHTML = q.split("||")[1];
+  document.getElementById('abtn2').innerHTML = q.split("||")[2];
+  document.getElementById('abtn3').innerHTML = q.split("||")[3];
+}
+}
+
+function awnser(a) {
+  let awnsera = document.getElementById("abtn"+a).innerHTML;
+  ajax('/answer/', "ans="+awnsera+"&q="+question, function(dump) {
+    if (dump == 'true') {
+      correctAnimation();
+      correct(turn);
+    }
+    else {
+      incorrect(turn);
+    }
+  });
+  question++;
+  ajax('/getQs/', 'q='+question, up);
+  turn++;
+  if (turn == 4) {
+    turn = 1
+  }
+  document.getElementById('dispturn').innerHTML = turn;
+  document.getElementById('p1').innerHTML = window.points[0];
+  document.getElementById('p2').innerHTML = window.points[1];
+  document.getElementById('p3').innerHTML = window.points[2];
+}
+
+
+
+
+
+
+
+
+
 
 </script>
 
