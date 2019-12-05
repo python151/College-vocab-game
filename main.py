@@ -75,7 +75,7 @@ def awnser():
                 return 'true'
             elif str(n) == str(qn):
                 break
-        return False
+        return 'false'
 
 @app.route('/points/', methods=['POST'])
 def checkPoints():
@@ -113,4 +113,4 @@ def internal_server(e):
 
 if __name__ == '__main__':
     app.secret_key = bytes(random.randint(1, 100000))
-    app.run(debug=True, port=3000)
+    app.run(debug=True, host='0.0.0.0', port=8000)

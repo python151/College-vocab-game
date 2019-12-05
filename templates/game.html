@@ -237,6 +237,8 @@ body {
 }
 
 </style>
+<button onclick="setPlayers()">Only 2 players click here</button>
+
 <div class="grid-container">
   <div class="grid-item" id="1"></div>
   <div class="grid-item" id="2"></div>
@@ -254,7 +256,8 @@ body {
   
   <div class="grid-out" id="btn1"></div> 
   <div class="grid-out" id="btn2">
-    <div id="aq" style="margin: 0; height: 0;">word</div> <br>
+    <div id="aq" style="margin: 0; height: 0;">word</div> 
+    <div id="dispturn" style="margin-left: 330px; height: 0;">turn 1</div><br>
 
     <button id="abtn1" onclick="awnser(1)">definition 1</button><br>
     <button id="abtn2" onclick="awnser(2)">definition 2</button><br>
@@ -279,7 +282,6 @@ body {
 
 </div>
 
-Player :<p id="dispturn"></p>
 Player 1:<p id="p1"></p>
 Player 2:<p id="p2"></p>
 Player 3:<p id="p3"></p>
@@ -335,17 +337,32 @@ var positions = [0, 0, 0]
 window.points = [0, 0, 0]
 var question = 0
 var turn = 1
+window.ppp = 3;
+
+var setPlayers = function() {
+    window.ppp = 2;
+}
 
 function move(player, roll) {
     var currentPosition = positions[player-1]
     if(currentPosition == 16 || (currentPosition == 15 && roll >= 2) || (currentPosition == 14 && roll >= 3)) {
       num = 16;
     }
+    else if(currentPosition == 0) {
+        currentPosition=1;
+        num = 17;
+    }
     else{
       num = 17;
     };
     newPosition = (currentPosition + roll)%num;
     positions[player-1] = newPosition;
+    if ((player == 2 || player == 3) && window.fff == 2) {
+        player--
+    }
+    else if (window.fff == 2){
+        player+=2
+    }
     document.getElementById(newPosition).innerHTML += "player"+String(player);
     console.log(currentPosition)
     document.getElementById(currentPosition).innerHTML = document.getElementById(currentPosition).innerHTML.replace("player"+String(player), '');
@@ -368,15 +385,7 @@ function correct(player) {
   let roll = Math.floor((Math.random() * 3) + 1);
   rollAnimate(roll);
   move(player, roll);
-  let playerPos = positions[player-1];
-  switch (playerPos%3) {
-    case 0:
-      window.points[player-1] += 10;
-    case 1:
-      window.points[player-1] += 5;
-    case 2:
-      window.points[player-1] += 2.5;
-  }
+  window.points[player-1] += 10
 }
 
 function incorrect(player) {
@@ -412,19 +421,23 @@ function awnser(a) {
       correct(turn);
     }
     else {
-      incorrect(turn);
+      if (document.getElementById('aq').innerHTML != 'done') {
+      incorrect(turn);}
+      else{
+          alert("done")
+      }
     }
   });
   question++;
   ajax('/getQs/', 'q='+question, up);
   turn++;
-  if (turn == 4) {
+  if (turn == window.ppp+1) {
     turn = 1
   }
-  document.getElementById('dispturn').innerHTML = turn;
+  document.getElementById('dispturn').innerHTML = "turn:"+turn;
   document.getElementById('p1').innerHTML = window.points[0];
   document.getElementById('p2').innerHTML = window.points[1];
-  document.getElementById('p3').innerHTML = window.points[2];
+  if (window.ppp !=2) {document.getElementById('p3').innerHTML = window.points[2];}
 }
 
 
